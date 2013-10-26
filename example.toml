@@ -1,0 +1,67 @@
+title = "Some Private Service"
+
+[service.lighttpd]
+ports = [ "tcp:80" ]
+
+[service.fastcgi]
+sockets = [ "/tmp/fcgi.sock" ]
+contains = "/usr/local/bin/sps"
+
+[package.spawn-fcgi]
+version = "> 1.0"
+
+[package.rake]
+type = "gem"
+
+[package.mc]
+absent = true
+
+[cronjob.puppet]
+user = "root"
+contains = "puppet agent -t"
+
+[exec.loaded_kernel_modules]
+command = "lsmod"
+contains = "ip_tables"
+return_code = 0
+
+[env.http_proxy]
+contains = "http://"
+
+[tcp.database]
+host = "localhost"
+port = 3306
+
+[file.sps_config]
+path = "/opt/sps/sps.conf"
+contains = "enabled = yes"
+mode = "0644"
+user = "root"
+group = "root"
+
+[file.resolv_conf]
+path = "/etc/resolv.conf"
+symlink_to = "/tmp/resolv.conf"
+
+[directory.sps_lock_dir]
+path = "/tmp/sps.lock"
+absent = true
+
+[mount.shared]
+path = "/mnt/shared"
+device = "nfs.company.com:/shared"
+
+[user.sps]
+
+[group.sps]
+absent = true
+
+[http.sps_health]
+type = "head"
+url = "http://localhost/health"
+status = "200 OK"
+
+[http.dependent_service]
+type = "get"
+url = "http://remote.company.com/info"
+contains = "200 OK"
