@@ -16,4 +16,3 @@ tags:
 
 push:
 	git push origin master
-	git push github master
