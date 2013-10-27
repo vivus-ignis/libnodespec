@@ -1,7 +1,7 @@
 package libnodespec
 
 import (
-	"github.com/BurntSushi/toml"
+//	"github.com/BurntSushi/toml"
 )
 
 type Spec struct {
@@ -96,17 +96,14 @@ type SpecHttp struct {
 	Contains string
 }
 
-func (spec Spec) String() string {
-}
+// func (spec Spec) String() string {
+// }
 
-func (spec Spec) RunConseq() {
-}
+// func (spec Spec) Run() {
+// }
 
-func (spec Spec) RunPara() {
-}
+// func (results ResultsSpec) String() string {
+// }
 
-func (results ResultsSpec) String() string {
-}
-
-func loadSpec(toml) (Spec, error) {
-}
+// func loadSpec(toml) (Spec, error) {
+// }

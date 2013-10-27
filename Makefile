@@ -1,3 +1,9 @@
+default: deps
+	go build
+
+deps:
+	go get github.com/BurntSushi/toml
+
 install:
 	go install
 
