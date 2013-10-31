@@ -16,3 +16,6 @@ tags:
 
 push:
 	git push origin master
+
+test:
+	go test -v

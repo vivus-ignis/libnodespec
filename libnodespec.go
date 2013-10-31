@@ -1,7 +1,7 @@
 package libnodespec
 
 import (
-//	"github.com/BurntSushi/toml"
+	"github.com/BurntSushi/toml"
 )
 
 type Spec struct {
@@ -30,6 +30,7 @@ type SpecService struct {
 }
 
 type SpecPackage struct {
+	Name    string
 	Type    string // "gem", "rpm", "deb" etc
 	Version string // "> 1.0", "<= 1.0", "1.0"
 	Absent  bool
@@ -44,7 +45,7 @@ type SpecCronjob struct {
 type SpecExec struct {
 	Command    string
 	Contains   string
-	ReturnCode string `toml:"return_code"`
+	ReturnCode int `toml:"return_code"`
 }
 
 type SpecEnv struct {
@@ -105,5 +106,7 @@ type SpecHttp struct {
 // func (results ResultsSpec) String() string {
 // }
 
-// func loadSpec(toml) (Spec, error) {
-// }
+func loadSpec(tomlData string) (spec Spec, err error) {
+	_, err = toml.Decode(tomlData, &spec)
+	return
+}
