@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<todo version="0.1.20">
+    <note priority="medium" time="1383263416">
+        PATH for exec.Command doesn't work with ruby version managers
+    </note>
+    <note priority="medium" time="1383263448">
+        PATH for exec.Command doesn't include /usr/local/bin - how to manage it the right way?
+    </note>
+</todo>
