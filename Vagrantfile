@@ -17,8 +17,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "arch" do |arch|
-    arch.vm.box = "archlinux_2013_08"
-    arch.vm.box_url = "https://downloads.sourceforge.net/project/vagrant-archlinux/vagrant-archlinux.box"
+    arch.vm.box = "archlinux_2013_07"
+    arch.vm.box_url = "http://iweb.dl.sourceforge.net/project/flowboard-vagrant-boxes/arch64-2013-07-26-minimal.box"
   end
 
   config.vm.define "gentoo" do |gentoo|

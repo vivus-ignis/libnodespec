@@ -7,14 +7,14 @@ import (
 )
 
 func __initTestSpecPackageExistingGem() error {
-	cmd := exec.Command("gem install god --no-ri --no-rdoc")
+	cmd := exec.Command("/bin/bash", "-ic", "gem install god --no-ri --no-rdoc")
 
 	err := cmd.Run()
 	return err
 }
 
 func __teardownTestSpecPackageExistingGem() {
-	cmd := exec.Command("gem uninstall god")
+	cmd := exec.Command("/bin/bash", "-ic", "gem uninstall god")
 
 	cmd.Run()
 }
@@ -25,14 +25,14 @@ func __initTestSpecPackageExistingHomebrew() error {
 		return errors.New("Default package manager is not homebrew")
 	}
 
-	cmd := exec.Command("brew install urlview")
+	cmd := exec.Command("/usr/local/bin/brew", "install", "urlview")
 
 	err := cmd.Run()
 	return err
 }
 
 func __teardownTestSpecPackageExistingHomebrew() {
-	cmd := exec.Command("brew uninstall urlview")
+	cmd := exec.Command("/usr/local/bin/brew", "uninstall", "urlview")
 
 	cmd.Run()
 }

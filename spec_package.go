@@ -14,15 +14,23 @@ func (spec SpecPackage) Run(defaults PlatformDefaults) (err error) {
 
 	switch spec.Type {
 	case "rpm":
-		cmd = exec.Command("rpm -q " + spec.Name)
+		rpm, err := exec.LookPath("rpm")
+		if err != nil {
+			return err
+		}
+		cmd = exec.Command(rpm, "-q", spec.Name)
 	case "dpkg":
-		cmd = exec.Command("dpkg -L " + spec.Name)
+		dpkg, err := exec.LookPath("dpkg")
+		if err != nil {
+			return err
+		}
+		cmd = exec.Command(dpkg, "-L", spec.Name)
 	case "pacman":
 	case "ebuild":
 	case "homebrew":
-		cmd = exec.Command("brew ls " + spec.Name)
+		cmd = exec.Command("/usr/local/bin/brew", "ls", spec.Name)
 	case "gem":
-		cmd = exec.Command("gem contents " + spec.Name)
+		cmd = exec.Command("/bin/bash", "-ic", "gem contents "+spec.Name)
 	default:
 		return errors.New("Unknown package manager type " + spec.Type)
 	}
