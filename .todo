@@ -6,4 +6,7 @@
     <note priority="medium" time="1383263448" done="1383388116">
         PATH for exec.Command doesn't include /usr/local/bin - how to manage it the right way?
     </note>
+    <note priority="medium" time="1383472454">
+        install VMs with VB GuestAdditions 4.3
+    </note>
 </todo>

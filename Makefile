@@ -1,3 +1,6 @@
+#VMS := centos ubuntu arch gentoo
+VMS := ubuntu
+
 default: deps
 	go build
 
@@ -17,5 +20,17 @@ tags:
 push:
 	git push origin master
 
-test:
-	go test -v
+start_vms:
+	@for vm in $(VMS); do vagrant up $$vm; done
+
+test: start_vms
+	@echo "***** Local OS *****"
+	@echo
+#	go test -v
+	@for vm in $(VMS); do \
+		echo "***** $$vm *****" ; \
+	  vagrant provision $$vm ; \
+		vagrant ssh $$vm -c 'cd /vagrant; GOPATH=/home/vagrant/go /usr/local/go/bin/go get github.com/BurntSushi/toml'; \
+	  vagrant ssh $$vm -c 'cd /vagrant; GOPATH=/home/vagrant/go /usr/local/go/bin/go test -v' ; \
+	  echo "--------------------------------------------------------------------------------" ; \
+	done
