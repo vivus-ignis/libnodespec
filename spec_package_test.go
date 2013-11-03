@@ -37,6 +37,24 @@ func __teardownTestSpecPackageExistingHomebrew() {
 	cmd.Run()
 }
 
+func __initTestSpecPackageExistingDpkg() error {
+	defaults := gatherPlatformFacts()
+	if defaults.DefaultPackageManager != "dpkg" {
+		return errors.New("Default package manager is not dpkg")
+	}
+
+	cmd := exec.Command("/usr/bin/apt-get", "install", "-q=2", "urlview")
+
+	err := cmd.Run()
+	return err
+}
+
+func __teardownTestSpecPackageExistingDpkg() {
+	cmd := exec.Command("/usr/bin/apt-get", "remove", "urlview")
+
+	cmd.Run()
+}
+
 func TestSpecPackageNonexistentGem(t *testing.T) {
 	var testSpec SpecPackage
 
@@ -89,6 +107,39 @@ func TestSpecPackageExistingHomebrew(t *testing.T) {
 		t.SkipNow()
 	}
 	defer __teardownTestSpecPackageExistingHomebrew()
+
+	var testSpec SpecPackage
+
+	testSpec.Name = "urlview"
+
+	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSpecPackageNonexistentDpkg(t *testing.T) {
+	defaults := gatherPlatformFacts()
+
+	if defaults.DefaultPackageManager != "dpkg" {
+		t.Log("Default package manager is not dpkg")
+		t.SkipNow()
+	}
+
+	var testSpec SpecPackage
+
+	testSpec.Name = "something_nonexistent"
+
+	if err := testSpec.Run(defaults); err == nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSpecPackageExistingDpkg(t *testing.T) {
+	if err := __initTestSpecPackageExistingDpkg(); err != nil {
+		t.Log(err)
+		t.SkipNow()
+	}
+	defer __teardownTestSpecPackageExistingDpkg()
 
 	var testSpec SpecPackage
 
