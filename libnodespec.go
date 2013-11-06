@@ -23,6 +23,7 @@ type Spec struct {
 type ResultsSpec map[string]string
 
 type SpecService struct {
+	Name     string
 	Sockets  []string // tcp:80
 	Ports    []string
 	Contains string
@@ -37,28 +38,33 @@ type SpecPackage struct {
 }
 
 type SpecCronjob struct {
+	Name     string
 	User     string
 	Contains string
 	Absent   bool
 }
 
 type SpecExec struct {
+	Name       string
 	Command    string
 	Contains   string
 	ReturnCode int `toml:"return_code"`
 }
 
 type SpecEnv struct {
+	Name     string
 	Contains string
 	Absent   bool
 }
 
 type SpecTcp struct {
+	Name string
 	Host string
 	Port int
 }
 
 type SpecFile struct {
+	Name      string
 	Path      string
 	Contains  string
 	Mode      string
@@ -69,6 +75,7 @@ type SpecFile struct {
 }
 
 type SpecDirectory struct {
+	Name      string
 	Path      string
 	Mode      string
 	User      string
@@ -78,19 +85,23 @@ type SpecDirectory struct {
 }
 
 type SpecMount struct {
+	Name   string
 	Path   string
 	Device string
 }
 
 type SpecUser struct {
+	Name   string
 	Absent bool
 }
 
 type SpecGroup struct {
+	Name   string
 	Absent bool
 }
 
 type SpecHttp struct {
+	Name     string
 	Type     string
 	Url      string
 	Status   string

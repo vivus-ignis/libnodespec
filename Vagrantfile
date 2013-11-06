@@ -40,7 +40,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     centos.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box"
     centos.vm.provision "shell", inline: $go_install_script
     centos.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "128"]
+      vb.customize ["modifyvm", :id, "--memory", "256"]
+      #vb.gui = true
     end
   end
 

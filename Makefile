@@ -1,5 +1,5 @@
 #VMS := centos ubuntu arch gentoo
-VMS := ubuntu
+VMS :=
 
 default: deps
 	go build
@@ -26,7 +26,7 @@ start_vms:
 test: start_vms
 	@echo "***** Local OS *****"
 	@echo
-#	go test -v
+	go test -v
 	@for vm in $(VMS); do \
 		echo "***** $$vm *****" ; \
 	  vagrant provision $$vm ; \

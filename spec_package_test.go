@@ -117,6 +117,40 @@ func TestSpecPackageExistingHomebrew(t *testing.T) {
 	}
 }
 
+func TestSpecPackageExistingHomebrewVersion(t *testing.T) {
+	if err := __initTestSpecPackageExistingHomebrew(); err != nil {
+		t.Log(err)
+		t.SkipNow()
+	}
+	defer __teardownTestSpecPackageExistingHomebrew()
+
+	var testSpec SpecPackage
+
+	testSpec.Name = "urlview"
+	testSpec.Version = "0.9"
+
+	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSpecPackageExistingHomebrewWrongVersion(t *testing.T) {
+	if err := __initTestSpecPackageExistingHomebrew(); err != nil {
+		t.Log(err)
+		t.SkipNow()
+	}
+	defer __teardownTestSpecPackageExistingHomebrew()
+
+	var testSpec SpecPackage
+
+	testSpec.Name = "urlview"
+	testSpec.Version = "0.99"
+
+	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestSpecPackageNonexistentDpkg(t *testing.T) {
 	defaults := gatherPlatformFacts()
 

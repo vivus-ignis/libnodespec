@@ -5,13 +5,16 @@ import (
 )
 
 type PlatformDefaults struct {
+	OperatingSystem       string
 	DefaultPackageManager string
 }
 
 func gatherPlatformFacts() (defaults PlatformDefaults) {
 	var exists os.FileInfo
 
-	switch operatingSystem() {
+	defaults.OperatingSystem = __operatingSystem()
+
+	switch defaults.OperatingSystem {
 	case "unix-like":
 	case "windows":
 	case "darwin":
@@ -33,7 +36,7 @@ func gatherPlatformFacts() (defaults PlatformDefaults) {
 	return
 }
 
-func operatingSystem() (result string) {
+func __operatingSystem() (result string) {
 	if os.DevNull == "NUL" {
 		return "windows"
 	} else if os.DevNull == "/dev/null" {
