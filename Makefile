@@ -1,14 +1,15 @@
 #VMS := centos ubuntu arch gentoo
 VMS :=
+GO := /usr/local/go/bin/go
 
 default: deps
-	go build
+	$(GO) build
 
 deps:
-	go get github.com/BurntSushi/toml
+	$(GO) get github.com/BurntSushi/toml
 
 install:
-	go install
+	$(GO) install
 
 fmt:
 	gofmt -w *.go */*.go
@@ -26,7 +27,7 @@ start_vms:
 test: start_vms
 	@echo "***** Local OS *****"
 	@echo
-	go test -v
+	$(GO) test -v
 	@for vm in $(VMS); do \
 		echo "***** $$vm *****" ; \
 	  vagrant provision $$vm ; \

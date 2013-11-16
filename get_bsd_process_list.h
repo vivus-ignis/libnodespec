@@ -1,0 +1,2 @@
+int isBSDProcessExists(char* psname);
+

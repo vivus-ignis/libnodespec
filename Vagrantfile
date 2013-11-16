@@ -8,9 +8,6 @@ $go_distro_url = "http://go.googlecode.com/files/go1.1.2.linux-amd64.tar.gz"
 $go_install_script = <<"EOF"
   set -x
   cd /tmp
-  if [ -f /etc/arch-release ] && [ ! -f /usr/bin/wget ]; then
-    /bin/sh -c 'yes | pacman -Sy wget'
-  fi
   [ ! -x /usr/local/go/bin/go ] && { 
     wget -qc #{$go_distro_url}
     sudo tar xf #{::File.basename $go_distro_url} -C /usr/local 
@@ -46,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "arch" do |arch|
-    arch.vm.box = "archlinux_2013_07"
+    arch.vm.box = "archlinux_201311"
     arch.vm.box_url = "http://iweb.dl.sourceforge.net/project/flowboard-vagrant-boxes/arch64-2013-07-26-minimal.box"
     arch.vm.provision "shell", inline: $go_install_script
     arch.vm.provider :virtualbox do |vb|

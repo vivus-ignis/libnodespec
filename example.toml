@@ -5,7 +5,7 @@ ports = [ "tcp:80" ]
 
 [service.fastcgi]
 sockets = [ "/tmp/fcgi.sock" ]
-contains = "/usr/local/bin/sps"
+#contains = "/usr/local/bin/sps"
 
 [package.spawn-fcgi]
 version = "> 1.0"

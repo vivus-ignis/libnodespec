@@ -22,6 +22,13 @@ type Spec struct {
 
 type ResultsSpec map[string]string
 
+type SpecPackage struct {
+	Name    string
+	Type    string // "gem", "rpm", "deb" etc
+	Version string // "> 1.0", "<= 1.0", "1.0"
+	Absent  bool
+}
+
 type SpecService struct {
 	Name     string
 	Sockets  []string // tcp:80
@@ -30,37 +37,14 @@ type SpecService struct {
 	Absent   bool
 }
 
-type SpecPackage struct {
-	Name    string
-	Type    string // "gem", "rpm", "deb" etc
-	Version string // "> 1.0", "<= 1.0", "1.0"
-	Absent  bool
+type SpecUser struct {
+	Name   string
+	Absent bool
 }
 
-type SpecCronjob struct {
-	Name     string
-	User     string
-	Contains string
-	Absent   bool
-}
-
-type SpecExec struct {
-	Name       string
-	Command    string
-	Contains   string
-	ReturnCode int `toml:"return_code"`
-}
-
-type SpecEnv struct {
-	Name     string
-	Contains string
-	Absent   bool
-}
-
-type SpecTcp struct {
-	Name string
-	Host string
-	Port int
+type SpecGroup struct {
+	Name   string
+	Absent bool
 }
 
 type SpecFile struct {
@@ -90,14 +74,30 @@ type SpecMount struct {
 	Device string
 }
 
-type SpecUser struct {
-	Name   string
-	Absent bool
+type SpecCronjob struct {
+	Name     string
+	User     string
+	Contains string
+	Absent   bool
 }
 
-type SpecGroup struct {
-	Name   string
-	Absent bool
+type SpecEnv struct {
+	Name     string
+	Contains string
+	Absent   bool
+}
+
+type SpecExec struct {
+	Name       string
+	Command    string
+	Contains   string
+	ReturnCode int `toml:"return_code"`
+}
+
+type SpecTcp struct {
+	Name string
+	Host string
+	Port int
 }
 
 type SpecHttp struct {
