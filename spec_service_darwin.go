@@ -12,9 +12,9 @@ extern int isBSDProcessExists(char* psname);
 */
 import "C"
 
-func __findProcessDarwin(processName string) error {
+func (spec SpecService) Run(defaults PlatformDefaults) (err error) {
 
-	res := C.isBSDProcessExists(C.CString(processName))
+	res := C.isBSDProcessExists(C.CString(spec.Name))
 	if res != 0 {
 		return errors.New("No such process")
 	}

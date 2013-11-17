@@ -1,3 +1,5 @@
+#ifdef __APPLE__
+
 #include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
@@ -137,3 +139,4 @@ int isBSDProcessExists(char* psname)
 
   return 1;
 }
+#endif
