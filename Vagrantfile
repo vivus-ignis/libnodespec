@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "centos" do |centos|
     centos.vm.box = "centos_6_4"
-    centos.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box"
+    centos.vm.box_url = "https://dl.dropboxusercontent.com/u/55729638/boxes/centos64_6_4.box"
     centos.vm.provision "shell", inline: $go_install_script
     centos.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "256"]
@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "arch" do |arch|
     arch.vm.box = "archlinux_201311"
-    arch.vm.box_url = "http://iweb.dl.sourceforge.net/project/flowboard-vagrant-boxes/arch64-2013-07-26-minimal.box"
+#    arch.vm.box_url = "http://iweb.dl.sourceforge.net/project/flowboard-vagrant-boxes/arch64-2013-07-26-minimal.box"
     arch.vm.provision "shell", inline: $go_install_script
     arch.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "256"]
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "gentoo" do |gentoo|
     gentoo.vm.box = "gentoo_2013_06"
-    gentoo.vm.box_url = "https://lxmx-vm.s3.amazonaws.com/vagrant/boxes/lxmx_gentoo-2013.05_chef-11.4.4.box"
+#    gentoo.vm.box_url = "https://lxmx-vm.s3.amazonaws.com/vagrant/boxes/lxmx_gentoo-2013.05_chef-11.4.4.box"
     gentoo.vm.provision "shell", inline: $go_install_script
     gentoo.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "128"]

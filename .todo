@@ -6,10 +6,25 @@
     <note priority="medium" time="1383263448" done="1383388116">
         PATH for exec.Command doesn't include /usr/local/bin - how to manage it the right way?
     </note>
-    <note priority="medium" time="1383472454">
+    <note priority="medium" time="1383472454" done="1384726975">
         install VMs with VB GuestAdditions 4.3
     </note>
     <note priority="medium" time="1383572370" done="1383768080">
         use rpm -q to check package availability on redhats
+    </note>
+    <note priority="medium" time="1384726984">
+        install slackware VM
+    </note>
+    <note priority="medium" time="1384727010">
+        update arch box: guest additions should work
+    </note>
+    <note priority="medium" time="1384727088">
+        add version tests for package spec
+    </note>
+    <note priority="medium" time="1384728324">
+        looks like there is no /proc/X/comm in 2.6 kernels
+    </note>
+    <note priority="medium" time="1384728342">
+        install gentoo VM
     </note>
 </todo>

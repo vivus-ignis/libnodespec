@@ -2,11 +2,10 @@ package libnodespec
 
 import (
 	"errors"
-	//"fmt"
+	//	"fmt"
 	"io/ioutil"
 	"path"
 	"path/filepath"
-	"strings"
 )
 
 func (spec SpecService) Run(defaults PlatformDefaults) (err error) {
@@ -15,12 +14,17 @@ func (spec SpecService) Run(defaults PlatformDefaults) (err error) {
 		return err
 	}
 	for _, dir := range psDirs {
-		psName, err := ioutil.ReadFile(path.Join(dir, "comm"))
+		psName, err := ioutil.ReadFile(path.Join(dir, "cmdline"))
 		if err != nil {
 			return err
 		}
-		// fmt.Printf("%s <=> %s\n", spec.Name, psName)
-		if strings.TrimSpace(string(psName)) == spec.Name {
+		if len(psName) == 0 {
+			continue
+		}
+		psNameLen := len(psName) - 1
+		//fmt.Printf("%s <=> %s\n", spec.Name, psName[:psNameLen])
+		// stripping \0
+		if string(psName[:psNameLen]) == spec.Name {
 			return nil
 		}
 	}

@@ -1,5 +1,5 @@
-#VMS := centos ubuntu arch gentoo
-VMS := ubuntu
+#VMS := centos ubuntu arch gentoo slackware
+VMS := ubuntu centos
 GO := /usr/local/go/bin/go
 
 default: deps
@@ -24,11 +24,14 @@ push:
 start_vms:
 	@for vm in $(VMS); do vagrant up $$vm; done
 
-test: start_vms
-	@echo "***** Local OS *****"
-	@echo
-#	-$(GO) test -v
+local_test:
+# 	@echo "***** Local OS *****"
+# 	@echo
+# 	-$(GO) test -v
+
+test: start_vms local_test
 	-@for vm in $(VMS); do \
+	  echo ; \
 		echo "***** $$vm *****" ; \
 	  vagrant provision $$vm ; \
 		vagrant ssh $$vm -c 'cd /vagrant; GOPATH=/home/vagrant/go /usr/local/go/bin/go get github.com/BurntSushi/toml'; \
