@@ -31,8 +31,8 @@ type SpecPackage struct {
 
 type SpecService struct {
 	Name     string
-	Sockets  []string // tcp:80
-	Ports    []string
+	Sockets  []string // /var/run/acpid.socket
+	Ports    []string // tcp:80
 	Contains string
 	Absent   bool
 }
