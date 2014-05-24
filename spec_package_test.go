@@ -68,6 +68,13 @@ func TestSpecPackageNonexistentGem(t *testing.T) {
 }
 
 func TestSpecPackageExistingGem(t *testing.T) {
+	defaults := gatherPlatformFacts()
+
+	if defaults.OperatingSystem != "darwin" {
+		t.Log("FIXME: disabled for this OS")
+		t.SkipNow()
+	}
+
 	if err := __initTestSpecPackageExistingGem(); err != nil {
 		t.Log(err)
 		t.SkipNow()
@@ -79,7 +86,7 @@ func TestSpecPackageExistingGem(t *testing.T) {
 	testSpec.Name = "god"
 	testSpec.Type = "gem"
 
-	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
+	if err := testSpec.Run(defaults); err != nil {
 		t.Fatal(err)
 	}
 }
