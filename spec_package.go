@@ -19,7 +19,20 @@ func (spec SpecPackage) Run(defaults PlatformDefaults) (err error) {
 	if spec.Version == "" {
 		err = spec.checkPackage(defaults)
 	} else {
-		err = spec.checkVersionPackage(defaults)
+		var verOpsRex string
+		verOpsRex = `^((>|<)=?)(.*)$`
+
+		re, err := regexp.Compile(verOpsRex)
+		if err != nil {
+			panic(fmt.Sprintf("this should not happen: cannot compile regex %s: %s\n", verOpsRex, err))
+		}
+
+		verOpsMatch := re.FindStringSubmatch(spec.Version)
+		if verOpsMatch == nil {
+			err = spec.checkVersionPackageExact(defaults)
+		} else {
+			err = spec.checkVersionPackageCompare(defaults, verOpsMatch[1], verOpsMatch[2])
+		}
 	}
 
 	return err
@@ -61,8 +74,7 @@ func (spec SpecPackage) checkPackage(defaults PlatformDefaults) (err error) {
 	}
 }
 
-// TODO: operators support (>, <, >=, <=)
-func (spec SpecPackage) checkVersionPackage(defaults PlatformDefaults) (err error) {
+func (spec SpecPackage) checkVersionPackageExact(defaults PlatformDefaults) (err error) {
 	var cmd *exec.Cmd
 	var verRex string
 
@@ -89,5 +101,9 @@ func (spec SpecPackage) checkVersionPackage(defaults PlatformDefaults) (err erro
 		return errors.New("No such version installed")
 	}
 
+	return nil
+}
+
+func (spec SpecPackage) checkVersionPackageCompare(defaults PlatformDefaults, op string, ver string) (err error) {
 	return nil
 }
