@@ -18,6 +18,7 @@ func gatherPlatformFacts() (defaults PlatformDefaults) {
 	case "unix-like":
 	case "windows":
 	case "darwin":
+		// brew takes precedence over macports
 		if exists, _ = os.Stat("/usr/local/bin/brew"); exists != nil {
 			defaults.DefaultPackageManager = "homebrew"
 		} else if exists, _ = os.Stat("/opt/local/bin/port"); exists != nil {
@@ -25,6 +26,8 @@ func gatherPlatformFacts() (defaults PlatformDefaults) {
 		}
 	case "redhat":
 		defaults.DefaultPackageManager = "rpm"
+	case "ubuntu":
+		fallthrough
 	case "debian":
 		defaults.DefaultPackageManager = "dpkg"
 	case "archlinux":
@@ -47,7 +50,8 @@ func __operatingSystem() (result string) {
 
 	var exists os.FileInfo
 
-	if exists, _ = os.Stat("/Applications"); exists != nil {
+	// http://trac.mcs.anl.gov/projects/bcfg2/browser/doc/server/plugins/probes/group.txt
+	if exists, _ = os.Stat("/usr/sbin/system_profiler"); exists != nil {
 		if exists, _ = os.Stat("/mach_kernel"); exists != nil {
 			result = "darwin"
 		}
@@ -63,7 +67,9 @@ func __operatingSystem() (result string) {
 	}
 
 	if exists, _ = os.Stat("/etc/debian_release"); exists != nil {
-		result = "debian"
+		if exists, _ = os.Stat("/usr/share/doc/ubuntu-minimal/copyright"); exists != nil {
+			result = "ubuntu"
+		}
 	}
 
 	if exists, _ = os.Stat("/etc/arch-release"); exists != nil {
