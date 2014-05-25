@@ -5,7 +5,36 @@ import (
 	"fmt"
 	"os/exec"
 	"regexp"
+	"strconv"
+	"strings"
 )
+
+type Version struct {
+	Major int
+	Minor int
+	Patch int
+}
+
+func VersionNew(version string) *Version {
+	verSplitted := strings.Split(version, ".")
+	if len(verSplitted) > 2 {
+		panic(fmt.Sprintf("libnodespec doesn't support this version signature: %s\n", version))
+	}
+	maj, err := strconv.Atoi(verSplitted[0])
+	if err != nil {
+		panic(fmt.Sprintf("libnodespec doesn't support this version signature: %s\n", version))
+	}
+	min, err := strconv.Atoi(verSplitted[0])
+	if err != nil {
+		panic(fmt.Sprintf("libnodespec doesn't support this version signature: %s\n", version))
+	}
+	patch, err := strconv.Atoi(verSplitted[0])
+	if err != nil {
+		panic(fmt.Sprintf("libnodespec doesn't support this version signature: %s\n", version))
+	}
+
+	return &Version{maj, min, patch}
+}
 
 func (spec SpecPackage) Run(defaults PlatformDefaults) (err error) {
 	if spec.Name == "" {
@@ -31,7 +60,9 @@ func (spec SpecPackage) Run(defaults PlatformDefaults) (err error) {
 		if verOpsMatch == nil {
 			err = spec.checkVersionPackageExact(defaults)
 		} else {
-			err = spec.checkVersionPackageCompare(defaults, verOpsMatch[1], verOpsMatch[2])
+			compareOp := verOpsMatch[1] // e.g. '>'
+			compareVer := VersionNew(verOpsMatch[2])
+			err = spec.checkVersionPackageCompare(defaults, compareOp, compareVer)
 		}
 	}
 
@@ -104,6 +135,40 @@ func (spec SpecPackage) checkVersionPackageExact(defaults PlatformDefaults) (err
 	return nil
 }
 
-func (spec SpecPackage) checkVersionPackageCompare(defaults PlatformDefaults, op string, ver string) (err error) {
+func (spec SpecPackage) checkVersionPackageCompare(defaults PlatformDefaults, op string, ver *Version) (err error) {
+	// var cmd *exec.Cmd
+	// var verRex string
+
+	// switch spec.Type {
+	// case "gem":
+	// default:
+	// 	return errors.New("Unknown package manager type " + spec.Type)
+	// }
+
 	return nil
+}
+
+// http://semver.org/ style supported (MAJOR.MINOR.PATCH)
+// -1                0                  1
+// first greater - equal - second greater
+func compareVersions(first *Version, second *Version) int {
+	if first.Major > second.Major {
+		return -1
+	} else if second.Major > first.Major {
+		return 1
+	} else {
+		if first.Minor > second.Minor {
+			return -1
+		} else if second.Minor > first.Minor {
+			return 1
+		} else {
+			if first.Patch > second.Patch {
+				return -1
+			} else if second.Patch > first.Patch {
+				return 1
+			} else {
+				return 0
+			}
+		}
+	}
 }
