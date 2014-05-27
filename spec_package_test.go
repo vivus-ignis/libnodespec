@@ -1,9 +1,16 @@
 package libnodespec
 
 import (
+	"bytes"
 	"errors"
+	"fmt"
 	"os/exec"
+	"strings"
 	"testing"
+)
+
+const (
+	CustomDebPackage = "rubygem-rake_10.3.2_all.deb"
 )
 
 func __initTestSpecPackageExistingGem() error {
@@ -43,14 +50,20 @@ func __initTestSpecPackageExistingDpkg() error {
 		return errors.New("Default package manager is not dpkg")
 	}
 
-	cmd := exec.Command("/usr/bin/apt-get", "install", "-q=2", "urlview")
+	deb := fmt.Sprintf("/vagrant/materials/%s", CustomDebPackage)
+	cmd := exec.Command("/usr/bin/dpkg", "-i", deb)
 
+	// var out bytes.Buffer
+	// cmd.Stderr = &out
 	err := cmd.Run()
+
+	// fmt.Printf("dpkg output:\n%s\n", out.String())
+
 	return err
 }
 
 func __teardownTestSpecPackageExistingDpkg() {
-	cmd := exec.Command("/usr/bin/apt-get", "remove", "urlview")
+	cmd := exec.Command("/usr/bin/apt-get", "remove", "rubygem-fpm")
 
 	cmd.Run()
 }
@@ -184,7 +197,7 @@ func TestSpecPackageExistingDpkg(t *testing.T) {
 
 	var testSpec SpecPackage
 
-	testSpec.Name = "urlview"
+	testSpec.Name = strings.Split(CustomDebPackage, "_")[0]
 
 	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
 		t.Fatal(err)

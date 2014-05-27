@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 $go_distro_url = "http://go.googlecode.com/files/go1.1.2.linux-amd64.tar.gz"
 
 $go_install_script = <<"EOF"
-  set -x
+#  set -x
   cd /tmp
   [ ! -x /usr/local/go/bin/go ] && { 
     wget -qc #{$go_distro_url}
@@ -21,12 +21,21 @@ $go_install_script = <<"EOF"
   chown vagrant /home/vagrant/go
 EOF
 
+$fpm_install_script_ubuntu = <<"EOF"
+#  set -x
+  [ ! -x /usr/local/bin/fpm ] && {
+    apt-get install -y ruby1.9.1 ruby1.9.1-dev
+    gem install fpm --no-ri --no-rdoc
+  }
+EOF
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu_12_04"
     ubuntu.vm.box_url = "https://dl.dropboxusercontent.com/u/55729638/boxes/ubuntu64_12_04.box"
     ubuntu.vm.provision "shell", inline: $go_install_script
+    ubuntu.vm.provision "shell", inline: $fpm_install_script_ubuntu
     ubuntu.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "256"]
     end
