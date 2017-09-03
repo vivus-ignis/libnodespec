@@ -1,7 +1,7 @@
 package libnodespec
 
 import (
-	"bytes"
+	//	"bytes"
 	"errors"
 	"fmt"
 	"os/exec"
@@ -200,6 +200,40 @@ func TestSpecPackageExistingDpkg(t *testing.T) {
 	testSpec.Name = strings.Split(CustomDebPackage, "_")[0]
 
 	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSpecPackageExistingDpkgVersion(t *testing.T) {
+	if err := __initTestSpecPackageExistingDpkg(); err != nil {
+		t.Log(err)
+		t.SkipNow()
+	}
+	defer __teardownTestSpecPackageExistingDpkg()
+
+	var testSpec SpecPackage
+
+	testSpec.Name = strings.Split(CustomDebPackage, "_")[0]
+	testSpec.Version = strings.Split(CustomDebPackage, "_")[1]
+
+	if err := testSpec.Run(gatherPlatformFacts()); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestSpecPackageExistingDpkgWrongVersion(t *testing.T) {
+	if err := __initTestSpecPackageExistingDpkg(); err != nil {
+		t.Log(err)
+		t.SkipNow()
+	}
+	defer __teardownTestSpecPackageExistingDpkg()
+
+	var testSpec SpecPackage
+
+	testSpec.Name = strings.Split(CustomDebPackage, "_")[0]
+	testSpec.Version = "1.0.0"
+
+	if err := testSpec.Run(gatherPlatformFacts()); err == nil {
 		t.Fatal(err)
 	}
 }
